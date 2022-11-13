@@ -4,8 +4,8 @@ import { useEffect,useState } from 'react'
 const IssuesRegistration = () => {
     const[title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const[created, setCreated] = useState("")
-    const[isCompleted, setIsCompleted] = useState(false)
+//const[created, setCreated] = useState("")
+   // const[isCompleted, setIsCompleted] = useState(false)
     const [userId, setUserId]  = useState(0)
     const [users,setUsers] = useState([])
 
@@ -22,7 +22,7 @@ const IssuesRegistration = () => {
       e.preventDefault()
       
       if (userId !== 0) {
-          const issue = { title, description,created,isCompleted, userId }
+          const issue = { title, description, userId }
           const res = await fetch('https://localhost:7219/api/Cases', {
               method: 'POST',
               headers: {
@@ -31,11 +31,13 @@ const IssuesRegistration = () => {
               body: JSON.stringify(issue)
           })
 
+          console.log('issueData', await res.json())
+
           
           setTitle('')
           setDescription('')
-          setCreated("")
-          setIsCompleted(false)
+          //setCreated("")
+          //setIsCompleted(false)
           setUserId(0)
       }
   }
@@ -59,14 +61,7 @@ const IssuesRegistration = () => {
         <label className="form-label">Description</label>
         <textarea type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
     </div>
-    <div className="mb-3">
-        <label className="form-label">Date</label>
-        <input type="date" className="form-control" value={created} onChange={(e) => setCreated(e.target.value)} />
-    </div>
-    <div className="mb-3">
-        <label className="form-label">status</label>
-        <input type="checkbox" className="form-control"  value={isCompleted} onChange={(e) => setIsCompleted(!isCompleted)} />
-    </div>
+  
    
     <button type="submit" className="btn btn-success">Save</button>
 </form>
