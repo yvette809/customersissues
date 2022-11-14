@@ -24,15 +24,33 @@ useEffect(()=>{
   return (
     <div>
     {sortedIssues.length < 0 ? <h1>There are no cases to show </h1> : (
+        <table className="table table-striped mt-5">
+        <thead>
+          <tr>
+            <th scope="col">Issue</th>
+            <th scope="col">Created</th>
+            <th scope="col">User</th>
+            <th scope="col">Status</th>
+          </tr>
+          </thead>
+          <tbody>
+             {
+                 sortedIssues.map(issue=>{
 
-        sortedIssues.map(issue=>{
-
-            let today = new Date().toISOString()
-            if(issue.created>= today){
-                return  <IssuesList issue ={issue}/>
+                    let today = new Date().toISOString()
+                   if(issue.created>= today){
+                   return  <IssuesList issue ={issue}/>
             }
-           
-})
+            
+            })
+            
+             }
+
+          </tbody>
+          
+          </table>
+         
+       
 
     )}
     </div>

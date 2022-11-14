@@ -4,8 +4,6 @@ import { useEffect,useState } from 'react'
 const IssuesRegistration = () => {
     const[title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-//const[created, setCreated] = useState("")
-   // const[isCompleted, setIsCompleted] = useState(false)
     const [userId, setUserId]  = useState(0)
     const [users,setUsers] = useState([])
 
@@ -36,8 +34,6 @@ const IssuesRegistration = () => {
           
           setTitle('')
           setDescription('')
-          //setCreated("")
-          //setIsCompleted(false)
           setUserId(0)
       }
   }
@@ -61,8 +57,7 @@ const IssuesRegistration = () => {
         <label className="form-label">Description</label>
         <textarea type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
     </div>
-  
-   
+
     <button type="submit" className="btn btn-success">Save</button>
 </form>
   )

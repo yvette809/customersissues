@@ -1,60 +1,16 @@
 import React from 'react'
-import { useEffect,useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import IssuesList from './IssuesList'
-
-
-const Issues = () => {
-
-    const [issues, setIssues] = useState([])
-    const sortedIssues = issues.sort((a, b) => new Date(a.date) - new Date(b.date))
-
-    
-  const  getIssues =  async ()=>{
-    const res = await fetch('https://localhost:7219/api/Cases')
-    const data = await res.json()
-    console.log('data', data)
-    setIssues(data)
-
-}
-
-useEffect(()=>{
-    getIssues()
-}, [])
+const IssuesList = ({issue}) => {
   return (
-    <div>
-    {sortedIssues.length < 0 ? <h1>There are no cases to show </h1> : (
-        <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Issue</th>
-            <th scope="col">Created</th>
-            <th scope="col">User</th>
-            <th scope="col">Status</th>
-          </tr>
-          </thead>
-          <tbody>
-             {
-                 sortedIssues.map(issue=>{
-
-                    let today = new Date().toISOString()
-                   if(issue.created>= today){
-                   return  <IssuesList issue ={issue}/>
-            }
-            
-            })
-            
-             }
-
-          </tbody>
-          
-          </table>
-         
-       
-
-    )}
-    </div>
+    <tr scope="row">
+     <Link to={`issues/${issue.id}`}><td>{issue.title}</td></Link>
+      <td>{issue.created.toString()}</td>
+      <td>{issue.user.firstName}-{issue.user.lastName}</td>
+      <td>{issue.isCompleted?<i class="fa-solid fa-check"></i>:<i class="fa-solid fa-x"></i>}</td>
+    </tr>
   )
 }
 
-export default Issues
+export default IssuesList
+
