@@ -26,3 +26,14 @@ table{
     margin: 0 auto;
     background: #fff;
 }
+
+.details-container{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    
+
+}
