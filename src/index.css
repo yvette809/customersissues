@@ -1,0 +1,22 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
+
+body{
+    background: rgb(168, 120, 120);
+    font-family: "Roboto", sans-serif;
+}
+.issues-form{
+    display: flex;
+    flex-direction: column; 
+    margin: 0 auto;
+    width: 50%;
+    
+}
+
+label.form-label{
+    font-weight: bold;
+}
+input:focus{
+    outline: none !important;
+    border: none;
+}
