@@ -2,6 +2,7 @@ import React from 'react'
 import { useState,useEffect } from 'react'
 import {Button,Modal} from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
+import Moment from "react-moment"
 
 
 const IssueDetails = () => {
@@ -13,6 +14,7 @@ const IssueDetails = () => {
     const[isCompleted, setIsCompleted] = useState(false)
     const [userId, setUserId]  = useState(0)
     const [users,setUsers] = useState([])
+    const[caseId, setCaseId] = useState("")
     const [showModal, setShowModal] = useState(false)
 
 
@@ -31,9 +33,8 @@ const IssueDetails = () => {
 
     // update issue
    
-const handleUpdate = async (e) => {
-    e.preventDefault()
-  
+const updateById = async (id) => {
+    
         const issue = { title, description, isCompleted,userId }
         const res = await fetch(`https://localhost:7219/api/Cases/${id}`, {
             method: 'PUT',
@@ -43,11 +44,13 @@ const handleUpdate = async (e) => {
             body: JSON.stringify(issue)
         })
 
-        
-       
-
 }
 
+const handleUpdate = (e)=>{
+    e.preventDefault()
+    updateById(issue.id)
+
+}
     // get modal
       function getModal  (){
         setShowModal(true)
@@ -68,17 +71,37 @@ const handleUpdate = async (e) => {
        
     }, [id])
 
+    // add comment
+    const submitComment = async(e)=>{
+    e.preventDefault()
+    const comment= {  description, caseId}
+    const res = await fetch('https://localhost:7219/api/Comments', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comment)
+    })
+
+    console.log('issueData', await res.json())
+    setDescription('')
+}
+
+    
+
   return (
     <>
-    <div className=" details-container">
-        <h3>{issue.title}</h3>
-        <p>{issue.description}</p>
-        <p>{issue.created}</p>
-        {issue.isCompleted?<button><i onClick={getModal} className="fa-solid fa-check fa.2x"></i></button>:<button><i onClick={getModal} className="fa-solid fa-x"></i></button>}
+    <h2 className='text-center mt-5 case-details'>Case Details</h2>
+    <div className=" details-container mt-5">
+        <h3> Title: {issue.title}</h3>
+        <p>Description: {issue.description}</p>
+        <p>Created: <Moment>{issue.created}</Moment></p>
+        <div>Case Completed : {issue.isCompleted?<button><i onClick={getModal} className="fa-solid fa-check fa.2x green"></i></button>:<button><i onClick={getModal} className="fa-solid fa-x red"></i></button>}</div>
         </div>
-        {showModal &&<Modal.Dialog >
-      <Modal.Header closeButton onClick={() => setShowModal(false)}>
-        <Modal.Title className='text-center'>Modal title</Modal.Title>
+        {showModal &&
+        <Modal.Dialog className='modal-div'>
+      <Modal.Header closeButton onClick={() => setShowModal(false)} className="pt-2">
+        <Modal.Title className='modal-title'>Edit Case</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -109,7 +132,20 @@ const handleUpdate = async (e) => {
       </Modal.Body>
     </Modal.Dialog>}
         
-        
+    <h2 className='text-center mt-5 case-details'>Add Comment</h2>
+ 
+    <form className="issues-form mt-5"  onSubmit={submitComment}>
+       <div className="mb-3">
+        <label className="form-label">Write a comment</label>
+        <input type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
+       </div>
+       <div className="mb-3">
+        <label className="form-label">caseId</label>
+        <input type="text" className="form-control" value={caseId} onChange={(e) => setCaseId(e.target.value)} />
+       </div>
+       <button type="submit" className="btn btn-success">Add</button>
+       
+    </form>
    
 </>
 

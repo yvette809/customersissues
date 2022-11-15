@@ -7,7 +7,7 @@ import IssuesList from './IssuesList'
 const Issues = () => {
 
     const [issues, setIssues] = useState([])
-    const sortedIssues = issues.sort((a, b) => new Date(a.date) - new Date(b.date))
+    const sortedIssues = issues.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0,10)
 
     
   const  getIssues =  async ()=>{
@@ -23,8 +23,9 @@ useEffect(()=>{
 }, [])
   return (
     <div>
+      <div className='text-center mt-5 complains'><h3>Customers Complains</h3></div>
     {sortedIssues.length < 0 ? <h1>There are no cases to show </h1> : (
-        <table className="table table-striped mt-5">
+        <table className="table table-striped ">
         <thead>
           <tr>
             <th scope="col">Issue</th>

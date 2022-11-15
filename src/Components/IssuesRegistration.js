@@ -39,7 +39,9 @@ const IssuesRegistration = () => {
 
  
   return (
-    <form onSubmit={handleSubmit} className="issues-form mt-5">
+    <>
+    <div className='text-center mt-4'><h3>Any issue? please write a report below</h3></div>
+    <form onSubmit={handleSubmit} className="issues-form">
     <div className="mb-3">
         <label className="form-label">customer</label>
         <select className="form-select" onChange={(e) => setUserId(e.target.value)}>
@@ -59,6 +61,7 @@ const IssuesRegistration = () => {
 
     <button type="submit" className="btn btn-success">Save</button>
 </form>
+</>
   )
 }
 
