@@ -36,7 +36,6 @@ useEffect(()=>{
           <tbody>
              {
                  sortedIssues.map(issue=>{
-
                     let today = new Date().toISOString()
                    if(issue.created>= today){
                    return  <IssuesList issue ={issue}/>

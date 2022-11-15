@@ -31,7 +31,6 @@ const IssuesRegistration = () => {
 
           console.log('issueData', await res.json())
 
-          
           setTitle('')
           setDescription('')
           setUserId(0)
