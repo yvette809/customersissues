@@ -7,7 +7,7 @@ import IssuesList from './IssuesList'
 const Issues = () => {
 
     const [issues, setIssues] = useState([])
-    const sortedIssues = issues.sort((a, b) => new Date(a.date) - new Date(b.date)).slice(0,10)
+    const sortedIssues = issues.sort((a, b) => new Date(a.date) - new Date(b.date))
 
     
   const  getIssues =  async ()=>{
@@ -37,10 +37,9 @@ useEffect(()=>{
           <tbody>
              {
                  sortedIssues.map(issue=>{
-                    let today = new Date().toISOString()
-                   if(issue.created>= today){
-                   return  <IssuesList issue ={issue}/>
-            }
+                   
+                   return  <IssuesList issue ={issue} key={issue.id}/>
+            
             
             })
             
@@ -50,8 +49,6 @@ useEffect(()=>{
           
           </table>
          
-       
-
     )}
     </div>
   )

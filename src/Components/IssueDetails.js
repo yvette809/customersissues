@@ -3,31 +3,39 @@ import { useState,useEffect } from 'react'
 import {Button,Modal} from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import Moment from "react-moment"
+import Issues from './Issues'
 
 
 const IssueDetails = () => {
 
     const {id} = useParams()
+
     const [issue, setIssue] = useState({})
+
     const[title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const[isCompleted, setIsCompleted] = useState(false)
     const [userId, setUserId]  = useState(0)
     const [users,setUsers] = useState([])
-    const[caseId, setCaseId] = useState("")
+
+    const[caseId, setCaseId] = useState(0)
     const [showModal, setShowModal] = useState(false)
 
 
     // get user by id
     const  getIssueById =  async (caseId)=>{
         const res = await fetch(`https://localhost:7219/api/Cases/${caseId}`)  
-        const data = await res.json()
-        console.log('issue', data)
-        setIssue(data)
-        setTitle(data.title)
-        setDescription(data.description)
-        setUserId(data.user.id)
-        setIsCompleted(data.isCompleted)
+        if(res.ok){
+            const data = await res.json()
+            console.log('issue', data)
+            setIssue(data)
+            setTitle(data.title)
+            setDescription(data.description)
+            setUserId(data.user.id)
+            setIsCompleted(data.isCompleted)
+
+        }
+       
     
     }
 
@@ -64,17 +72,12 @@ const handleUpdate = (e)=>{
         setUsers(await res.json())
        
     }
-    useEffect(()=>{
-        getIssueById(id)
-        fetchData()
-        
-       
-    }, [id])
-
+  
     // add comment
     const submitComment = async(e)=>{
     e.preventDefault()
-    const comment= {  description, caseId}
+   
+    const comment= {description, caseId}
     const res = await fetch('https://localhost:7219/api/Comments', {
         method: 'POST',
         headers: {
@@ -83,9 +86,17 @@ const handleUpdate = (e)=>{
         body: JSON.stringify(comment)
     })
 
-    console.log('issueData', await res.json())
+    setCaseId('')
     setDescription('')
 }
+
+
+useEffect(()=>{
+    getIssueById(id)
+    fetchData()
+      
+}, [id])
+
 
     
 
@@ -131,11 +142,17 @@ const handleUpdate = (e)=>{
 </form>
       </Modal.Body>
     </Modal.Dialog>}
-        
+ <ul className='comments'>
+    {issue && issue.comments?.length >0 && issue.comments.map(comment=>{
+        return <li>{comment.description}</li>
+  })}
+</ul>
+    
+
     <h2 className='text-center mt-5 case-details'>Add Comment</h2>
  
     <form className="issues-form mt-5"  onSubmit={submitComment}>
-       <div className="mb-3">
+    <div className="mb-3">
         <label className="form-label">Write a comment</label>
         <input type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
        </div>
@@ -144,7 +161,7 @@ const handleUpdate = (e)=>{
         <input type="text" className="form-control" value={caseId} onChange={(e) => setCaseId(e.target.value)} />
        </div>
        <button type="submit" className="btn btn-success">Add</button>
-       
+
     </form>
    
 </>

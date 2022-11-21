@@ -80,3 +80,17 @@ i{
     color: red;
 }
 
+
+ul.comments{
+    list-style-type: disc;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    font-weight: 700;
+    margin-top: 2rem;
+}
+
+ul.comments li{
+    font-size: 1.2rem;
+}
